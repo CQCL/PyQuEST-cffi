@@ -47,9 +47,6 @@ EXE = demo
 QUEST_DIR = ../../QuEST/QuEST/src
 QUEST_INCLUDE_DIR = ${QUEST_DIR}/../include
 
-COMPILER = 
-COMPILER_TYPE = 
-
 ifeq ($(OS),Windows_NT)
     # CCFLAGS += -D WIN32
     # ifeq ($(PROCESSOR_ARCHITEW6432),AMD64)
