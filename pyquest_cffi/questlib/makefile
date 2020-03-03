@@ -46,11 +46,39 @@ EXE = demo
 #QUEST_DIR = ../QuEST/QuEST
 QUEST_DIR = ../../QuEST/QuEST/src
 QUEST_INCLUDE_DIR = ${QUEST_DIR}/../include
-# compiler to use, which should support both C and C++, to be wrapped by GPU/MPI compilers
-COMPILER = gcc
 
-# type of above compiler, one of {GNU, INTEL, CLANG}, used for setting compiler flags
-COMPILER_TYPE = GNU
+COMPILER
+COMPILER_TYPE
+
+ifeq ($(OS),Windows_NT)
+    # CCFLAGS += -D WIN32
+    # ifeq ($(PROCESSOR_ARCHITEW6432),AMD64)
+    #     CCFLAGS += -D AMD64
+    # else
+    #     ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
+    #         CCFLAGS += -D AMD64
+    #     endif
+    #     ifeq ($(PROCESSOR_ARCHITECTURE),x86)
+    #         CCFLAGS += -D IA32
+    #     endif
+    # endif
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S),Linux)
+        COMPILER = gcc
+        COMPILER_TYPE = GNU
+    endif
+    ifeq ($(UNAME_S),Darwin)
+        COMPILER = gcc
+        COMPILER_TYPE = CLANG
+    endif
+endif
+
+# # compiler to use, which should support both C and C++, to be wrapped by GPU/MPI compilers
+# COMPILER = gcc
+
+# # type of above compiler, one of {GNU, INTEL, CLANG}, used for setting compiler flags
+# COMPILER_TYPE = GNU
 
 # hardwares to target: 1 means use, 0 means don't use
 MULTITHREADED = 1
