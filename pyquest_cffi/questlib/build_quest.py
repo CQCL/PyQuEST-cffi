@@ -76,7 +76,7 @@ plt = platform.system()
 if plt == 'Linux':
     linkargs = ['-Wl,-rpath,$ORIGIN']
 elif plt == 'Darwin':
-    linkargs = ['-Wl,-rpath,@loader_path']
+    linkargs = ['-Wl,-rpath,@loader_path/']
 
 ffibuilder.set_source(
     "_quest", r'''

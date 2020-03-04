@@ -64,10 +64,12 @@ else
     ifeq ($(UNAME_S),Linux)
         COMPILER = gcc
         COMPILER_TYPE = GNU
+        C_CLANG_RPATHFLAGS = ""
     endif
     ifeq ($(UNAME_S),Darwin)
         COMPILER = gcc
         COMPILER_TYPE = CLANG
+        C_CLANG_RPATHFLAGS = -install_name @rpath/libQuEST.so
     endif
 endif
 
@@ -237,7 +239,7 @@ else
 endif
 
 # c
-C_CLANG_FLAGS = -O2 -std=c99 -mavx -Wall -DQuEST_PREC=$(PRECISION)
+C_CLANG_FLAGS = -O2 -std=c99 -mavx -Wall -DQuEST_PREC=$(PRECISION) ${C_CLANG_RPATHFLAGS}
 C_GNU_FLAGS = -O2 -std=c99 -mavx -Wall -DQuEST_PREC=$(PRECISION) $(THREAD_FLAGS) -fpic
 C_INTEL_FLAGS = -O2 -std=c99 -fprotect-parens -Wall -xAVX -axCORE-AVX2 -diag-disable -cpu-dispatch -DQuEST_PREC=$(PRECISION) $(THREAD_FLAGS)
 
