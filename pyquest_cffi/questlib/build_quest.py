@@ -16,6 +16,7 @@
 import ctypes
 from cffi import FFI
 import os
+import platform
 
 lib_path = os.path.dirname(os.path.realpath(__file__))
 quest_path = os.path.join(lib_path, "../../QuEST/QuEST")
@@ -70,6 +71,13 @@ _lines = "".join(_lines).replace('qreal', qreal)
 
 ffibuilder = FFI()
 ffibuilder.cdef(_lines)
+plt = platform.system()
+
+if plt == 'Linux':
+    linkargs = ['-Wl,-rpath,$ORIGIN']
+elif plt == 'Darwin':
+    linkargs = ['-Wl,-rpath,@loader_path']
+
 ffibuilder.set_source(
     "_quest", r'''
         #include <QuEST.h>
@@ -77,7 +85,7 @@ ffibuilder.set_source(
     libraries=["QuEST"],
     include_dirs=include,
     library_dirs=[lib_path],
-    extra_link_args=['-Wl,-rpath,$ORIGIN'],
+    extra_link_args=linkargs,
     # extra_link_args=['-Wl,-rpath={}'.format(lib_path)],
 )
 ffibuilder.compile(verbose=True)
